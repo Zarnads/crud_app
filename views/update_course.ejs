@@ -1,0 +1,52 @@
+
+<!-- include header -->
+<%- include ('include/_header') %>
+<!-- /include header -->
+
+  <!-- Main Site -->
+  <main id="site-main">
+    <div class="container">
+        <div class="box-nav d-flex justify-between">
+           <div class="filter">
+               <a href="/"><i class="fas fa-angle-double-left"></i> All course</a>
+           </div>
+        </div>
+        <div class="form-title text-center">
+            <h2 class="text-dark">Update course</h2>
+            <span class="text-light">Use the below form to Update an course</span>
+        </div>
+
+        <!-- add user form -->
+         <!-- form handling -->
+ <form method="POST" id="update_course">
+    <div class="new_course">
+        <div class="form-group">
+            <label for="COURSE NAME" class="text-light">COURSE NAME</label>
+            <!-- <input type="hidden" name="id" value="<%= course._id %>">  -->
+            <input type="text" name="name" value="<%= course.name %>" placeholder="html">
+        </div>
+        <div class="form-group">
+            <label for="COURSE DURATION" class="text-light">COURSE DURATION</label>
+            <input type="text" name="duration" value="<%=course.duration%>" placeholder="6hr">
+        </div>
+        <div class="form-group">
+            <label for="COURSE FEES" class="text-light">COURSE FESS</label>
+            <input type="text" name="fees" value="<%=course.fees%>" placeholder=600>
+        </div>
+        
+
+        <div class="form-group">
+            <button type="submit" class="btn text-dark update">Save</button>
+        </div>
+
+    </div>
+</form>
+       
+    </div>
+</main>
+<!-- /Main Site -->
+
+<!-- include footer -->
+
+<%- include ('include/_footer') %>
+<!-- /include footer -->
