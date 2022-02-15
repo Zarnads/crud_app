@@ -1,10 +1,23 @@
-const mongoose =require("mongoose")
 
-    mongoose.connect('mongodb://15.206.7.200:28017/zarnas');
-    mongoose.connection.once('open',function(){
-        console.log("connection made");
-         
-    }).on ('error',function(error){
-        console.log('error is:',error);
-    });
+
+const mongoose = require('mongoose');
+const uri='mongodb://15.206.7.200:28017/zarnas'
+const connectDB = async () => {
+    try{
+        // mongodb connection string
+        const con = await mongoose.connect(process.env.uri, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useFindAndModify: false,
+            useCreateIndex: true
+        })
+
+        console.log(`MongoDB connected : ${con.connection.host}`);
+    }catch(err){
+        console.log(err);
+        process.exit(1);
+    }
+}
+
+module.exports = connectDB
 

@@ -1,45 +1,26 @@
-var Coursedb = require('../model/model.js');
-
-// create and save new course
-exports.create=(req,res)=>{
-    //validate
-    if(!req.body){
-        res.status(400).send({message:"cannot empty"});
-        return;
+const course = require("../model/model");
+//get all course
+const course_all = async(req,res)=>{
+    try{
+        const course = await course.find();
+        res.json(course);   
+    } catch (error){
+        res.json({message:error});
     }
-    //new course
-    const course = new course({
-        COURSENAME :req.body.COURSENAME,
-        COURSEDURATION :req.body.COURSEDURATION ,
-        COURSEFEES :req.body.COURSEFEES,
-    })
-    //save course in database
+};
+//get single course
+const course_single =async (req,res)=>{};
+//add new course
+const course_create = async(req,res)=>{};
+//update course
+const course_update = async(req,res)=>{};
+//delete course
+const course_delete =async (req,res)=>{};
 
-    // save course in the database
-    course
-        .save(course)
-        .then(data => {
-            //res.send(data)
-            res.redirect('/add-course');
-        })
-        .catch(err =>{
-            res.status(500).send({
-                message : err.message || "Some error occurred while creating a create operation"
-            });
-        });
-
-}
-    
-
-// return courses
-exports.find=(req,res)=>{
-    
-}
-//update
-exports.update=(req,res)=>{
-    
-}
-//delete
-exports.delete=(req,res)=>{
-    
-}
+module.exports={
+    course_all,
+    course_single,
+    course_create,
+    course_update,
+    course_delete,
+};
