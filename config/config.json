@@ -1,0 +1,24 @@
+{
+  "development": {
+    "username": "zarnas",
+    "password": "9XB7bCWfgJqKyjRtGZ4vvfM68RunVWc5",
+    "database": "zarnas",
+    "host": "15.206.7.200",
+    "dialect": "mysql",
+    "port":3310
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}

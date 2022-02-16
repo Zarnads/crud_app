@@ -11,28 +11,24 @@ const app = express();
 const courseroutes=require("./routes/router");
 app.use('/api/course',courseroutes);
 
-
-//const connectDB = require('./database/connection');
-
-const Course = require('./model/model');
-
 // log requests
 app.use(morgan('tiny'));
 
 dotenv.config({path:'./.env'});
-// mongodb connection
-mongoose.connect(
-    process.env.DB_CONNECT,
-    {useUnifiedTopology:true,useNewUrlParser:true},
-    ()=>console.log("connected to db")
-);
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// mysql connection
+
+const db = require('./model/model');
+
 
 // parse request to body-parser
 app.use(bodyparser.urlencoded({extended : true}))
 
 // set view engine
 app.set("view engine", "ejs")
-//app.set("views", path.resolve(__dirname, "views/ejs"))
 app.get('/',(req,res)=>{
     res.render('index');
 })
@@ -45,6 +41,7 @@ app.get('/update-course',(req,res)=>{
 
 // load assets
 app.use('/css', express.static(path.resolve(__dirname, "assets/css")))
-app.use('/img', express.static(path.resolve(__dirname, "assets/img")))
 app.use('/js', express.static(path.resolve(__dirname, "assets/js")))
+
+
 app.listen(3000, ()=> { console.log('Server is running on http://localhost:3000')});
