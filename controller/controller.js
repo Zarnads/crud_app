@@ -1,26 +1,144 @@
-const course = require("../model/model");
-//get all course
-const course_all = async(req,res)=>{
+const Course = require("../models/course");
+
+async function find_All(req,res){
     try{
-        const course = await course.find();
-        res.json(course);   
-    } catch (error){
-        res.json({message:error});
+        let data = await Course.findAll();
+            console.log('data :::: ', data)
+        if(data){
+            res.render('index', {data: data});
+        }
+        else{
+            res.render('index');
+        }
+    }catch(err){
+        res.status(400).send({
+            status: "Fail Get All Courses Get",
+            err: err
+        })
     }
 };
-//get single course
-const course_single =async (req,res)=>{};
-//add new course
-const course_create = async(req,res)=>{};
-//update course
-const course_update = async(req,res)=>{};
-//delete course
-const course_delete =async (req,res)=>{};
 
-module.exports={
-    course_all,
-    course_single,
-    course_create,
-    course_update,
-    course_delete,
+async function addCourseShow(req,res){
+    try {
+        res.render("add_course");
+    }catch(err) {
+        res.status(400).send({
+            status : "fail",
+            err : err
+        });
+    }
 };
+
+async function addCourse(req,res){
+    try {
+        let { name, duration, fees} = req.body;
+            console.log("req,body ::::",req.body)
+        if(Object.keys(req.body).length == 0) {
+            res.status(400).send({
+                msg : "Content can not be empty!"
+            });
+        }
+        const newCourse = {
+            name : name,
+            duration : duration,
+            fees : fees
+        };
+        await Course.create(newCourse);
+
+        let data = await Course.findAll();
+        res.status(200).render("index" , {data : data});
+
+    } catch(err) {
+        console.log("err : ", err);
+        res.status(400).send({
+            status : "process fail in add fucntion..!",
+            err : err
+        });
+    } 
+};
+
+async function updateCourseShow(req,res){
+    try {
+        let course = await Course.findOne({ where : { id : req.query.id }});
+        if(course) {
+            res.render("update_course", { course : course });
+        } else {
+            res.send("Something went wrong!");
+        }
+    } catch(err) {
+        res.status(400).send({
+            status : "fail in update method",
+            err : err
+        });
+    }
+};
+
+async function updateCourse(req, res){
+    try {
+        if (!req.body) {
+            return res.status(400).send({
+                msg : "Data to update can not be empty"
+            })
+        };
+        let data = await Course.findOne({ where :
+            {
+                id : req.body.id
+            }
+        });
+        if (data) {
+           await Course.update({
+                name : req.body.name,
+                duration : req.body.duration,
+                fees : req.body.fees
+            }, { where : { id : req.body.id }});
+
+            let data = await Course.findAll();
+            // res.redirect('/')
+            res.status(200).render("index", { data : data });
+            
+        } else {
+            res.status(200).send({
+                status : "processs can't be complete..!",
+                msg : "Error Update From Course Information!",
+                data : data
+            });
+        }
+    } catch (err) {
+        res.status(400).send({
+            status : "fail",
+            err : "updateCourse err : " + err
+        });
+    }
+};
+
+ async function remove_course(req,res){
+    try {
+            console.log("req.params : ", req.params);
+        let data = await Course.delete({ where : { id : req.params.id }});
+        if (data) {
+            let data = await Course.destroy({ where : { id : req.params.id }});
+            res.redirect("/");
+        } else {
+            res.status(200).send({
+                status : "success",
+                msg : "There is no data available like this!"
+            });
+        }
+    } catch (err) {
+        res.status(400).send({
+            status : "false",
+            err : err
+        });
+    }
+}; 
+
+
+
+module.exports = {
+    find_All, 
+    addCourseShow, 
+    addCourse, 
+    updateCourseShow,
+    updateCourse,
+    remove_course
+}
