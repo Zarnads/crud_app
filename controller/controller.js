@@ -59,11 +59,11 @@ async function addCourse(req,res){
 
 async function updateCourseShow(req,res){
     try {
-        let course = await Course.findOne({ where : { id : req.query.id }});
-        if(course) {
-            res.render("update_course", { course : course });
-        } else {
+        let course = await Course.findOne( { id : req.params.id });
+        if(!course) {
             res.send("Something went wrong!");
+        } else {
+            res.render("update_course", { course : course });
         }
     } catch(err) {
         res.status(400).send({
@@ -114,7 +114,7 @@ async function updateCourse(req, res){
  async function remove_course(req,res){
     try {
             console.log("req.params : ", req.params);
-        let data = await Course.delete({ where : { id : req.params.id }});
+        let data = await Course.findOne({ where : { id : req.params.id }});
         if (data) {
             let data = await Course.destroy({ where : { id : req.params.id }});
             res.redirect("/");

@@ -8,7 +8,7 @@ router.get("/add", controller.addCourseShow);
 
 router.post("/add", controller.addCourse);
 
-router.get("/update", controller.updateCourseShow);
+router.get("/update/:id", controller.updateCourseShow);
 
 router.post("/update", controller.updateCourse);
 
